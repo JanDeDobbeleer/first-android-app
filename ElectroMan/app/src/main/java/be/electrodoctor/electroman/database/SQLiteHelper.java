@@ -121,13 +121,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public List<Client> getAllClients() {
         List<Client> clients = new LinkedList<Client>();
 
-        // 1. build the query
-        String query = "SELECT * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
-                "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID;
-
-        // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = getAllClientsCursor();
 
         // 3. go over each row, build book and add it to list
         if (cursor.moveToFirst()) {
@@ -144,8 +138,22 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     public Cursor getAllClientsCursor() {
         // 1. build the query
-        String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, " + RepairContext.ClientEntry.COLUMN_NAME_NAME + ", " + RepairContext.AddressEntry.COLUMN_NAME_CITY + " FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
-                "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID;
+        String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
+                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToNext();
+        return cursor;
+    }
+
+    public Cursor getAllClientsCursor(String criteria) {
+        // 1. build the query
+        String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
+                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " " +
+                        "WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_NAME + " like '*" + criteria + "*' OR b." + RepairContext.AddressEntry.COLUMN_NAME_CITY + " like '*" + criteria + "*'";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();

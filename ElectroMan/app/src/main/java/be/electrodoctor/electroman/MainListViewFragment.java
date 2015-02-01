@@ -3,14 +3,10 @@ package be.electrodoctor.electroman;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -21,12 +17,11 @@ import be.electrodoctor.electroman.database.SQLiteHelper;
 /**
 * Created by janjoris on 01/02/15.
 */
-public class PlaceholderFragment extends Fragment {
+public class MainListViewFragment extends Fragment {
 
     private SQLiteHelper dbHelper;
-    private SimpleCursorAdapter dataAdapter;
 
-    public PlaceholderFragment() {
+    public MainListViewFragment() {
     }
 
     @Override
@@ -58,7 +53,7 @@ public class PlaceholderFragment extends Fragment {
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
-        dataAdapter = new SimpleCursorAdapter(
+        SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
                 this.getActivity(), R.layout.client_info,
                 cursor,
                 columns,
@@ -79,31 +74,6 @@ public class PlaceholderFragment extends Fragment {
                 // Get the state's capital from this row in the database.
                 String countryCode = cursor.getString(cursor.getColumnIndexOrThrow("name"));
                 Toast.makeText(getActivity(), countryCode, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-        //Handle fintering for id's
-        EditText myFilter = (EditText) rootView.findViewById(R.id.filter);
-        myFilter.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start,
-                                          int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start,
-                                      int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });
-
-        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            public Cursor runQuery(CharSequence constraint) {
-                return dbHelper.getAllClientsCursor();
             }
         });
     }
