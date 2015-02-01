@@ -4,12 +4,19 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+
+import java.util.List;
+
+import be.electrodoctor.electroman.database.SQLiteHelper;
+import be.electrodoctor.electroman.model.Address;
+import be.electrodoctor.electroman.model.Client;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -23,7 +30,17 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        //create new instance of helper
+        SQLiteHelper db = new SQLiteHelper(this);
+        //feed database
+        db.Feed();
+        // get all clients
+        List<Client> clients = db.getAllClients();
+        Log.d("Received clients", Integer.toString(clients.size()) + " number of clients retrieved");
     }
+
+
 
 
     @Override

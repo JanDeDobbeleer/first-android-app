@@ -2,11 +2,15 @@ package be.electrodoctor.electroman.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 import android.util.Log;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import be.electrodoctor.electroman.model.Address;
 import be.electrodoctor.electroman.model.Client;
 
 /**
@@ -29,16 +33,16 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // SQL statement to create address table
         String CREATE_ADDRESS_TABLE = "CREATE TABLE " + RepairContext.AddressEntry.TABLE_NAME + " ( " +
                 RepairContext.AddressEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                RepairContext.AddressEntry.COLUMN_NAME_CITY + "TEXT, " +
+                RepairContext.AddressEntry.COLUMN_NAME_CITY + " TEXT, " +
                 RepairContext.AddressEntry.COLUMN_NAME_STREET + " TEXT, " +
                 RepairContext.AddressEntry.COLUMN_NAME_NUMBER + " INTEGER, " +
-                RepairContext.AddressEntry.COLUMN_NAME_POSTALCODE + " INTEGER";
+                RepairContext.AddressEntry.COLUMN_NAME_POSTALCODE + " INTEGER)";
 
         // SQL statement to create client table
         String CREATE_CLIENT_TABLE = "CREATE TABLE " + RepairContext.ClientEntry.TABLE_NAME + " ( " +
                 RepairContext.ClientEntry.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 RepairContext.ClientEntry.COLUMN_NAME_NAME + " TEXT, "+
-                RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + " INTEGER" +
+                RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + " INTEGER, " +
                 "FOREIGN KEY (" + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + ") REFERENCES " + RepairContext.AddressEntry.TABLE_NAME + " (" + RepairContext.AddressEntry.COLUMN_NAME_ID + "));";
 
         // create books table
@@ -56,7 +60,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
-    public void addClient(Client client){
+    public long addClient(Client client){
         Log.d("addClient", client.toString());
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -79,9 +83,124 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             clientValues.put(RepairContext.ClientEntry.COLUMN_NAME_ADDRESS, addressId);
 
         // 3. insert
-        db.insert(RepairContext.ClientEntry.TABLE_NAME, null, clientValues);
+        long id = db.insert(RepairContext.ClientEntry.TABLE_NAME, null, clientValues);
 
         // 4. close
         db.close();
+        return id;
+    }
+
+    public Client getClient(long id){
+
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        final String MY_QUERY = "SELECT * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
+                                "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID +
+                                " WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_ID + "=?";
+        Cursor cursor = db.rawQuery(MY_QUERY, new String[]{String.valueOf(id)});
+
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+        else
+            return null;
+
+        // 4. build client entity
+        Client client = buildEntityFromCursor(cursor);
+
+        //log
+        Log.d("getClient(" + id + ")", client.toString());
+
+        // 5. return entity
+        return client;
+    }
+
+    // Get All Clients
+    public List<Client> getAllClients() {
+        List<Client> clients = new LinkedList<Client>();
+
+        // 1. build the query
+        String query = "SELECT * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
+                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        Client client = null;
+        if (cursor.moveToFirst()) {
+            do {
+                client = buildEntityFromCursor(cursor);
+                clients.add(client);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllClients()", Integer.toString(clients.size()) + " clients");
+
+        // return books
+        return clients;
+    }
+
+    private Client buildEntityFromCursor(Cursor cursor){
+        Client client = new Client();
+        client.setId(cursor.getInt(0));
+        client.setName(cursor.getString(1));
+        //get address
+        Address address = new Address();
+        address.setId(cursor.getInt(2));
+        address.setCity(cursor.getString(2));
+        address.setStreet(cursor.getString(2));
+        address.setNumber(cursor.getInt(2));
+        address.setPostalCode(cursor.getInt(2));
+        client.setAddress(address);
+        return client;
+    }
+
+    public void Feed(){
+        //client1
+        Client client = new Client();
+        client.setName("Jan");
+        Address address = new Address();
+        address.setStreet("Fabiolalaan");
+        address.setNumber(27);
+        address.setPostalCode(3290);
+        address.setCity("Diest");
+        client.setAddress(address);
+        this.addClient(client);
+
+        //client2
+        client = new Client();
+        client.setName("Katrien");
+        address = new Address();
+        address.setStreet("Fabiolalaan");
+        address.setNumber(27);
+        address.setPostalCode(3290);
+        address.setCity("Diest");
+        client.setAddress(address);
+        this.addClient(client);
+
+        client = new Client();
+        client.setName("Tom");
+        address = new Address();
+        address.setStreet("Geldenaaksebaan");
+        address.setNumber(214);
+        address.setPostalCode(3000);
+        address.setCity("Leuven");
+        client.setAddress(address);
+        this.addClient(client);
+
+
+        client = new Client();
+        client.setName("Monique");
+        address = new Address();
+        address.setStreet("Rodenemweg");
+        address.setNumber(134);
+        address.setPostalCode(1500);
+        address.setCity("Halle");
+        client.setAddress(address);
+        this.addClient(client);
     }
 }
