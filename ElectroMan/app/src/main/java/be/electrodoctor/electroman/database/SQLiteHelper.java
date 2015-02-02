@@ -153,7 +153,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         // 1. build the query
         String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
                        "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " " +
-                        "WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_NAME + " like '*" + criteria + "*' OR b." + RepairContext.AddressEntry.COLUMN_NAME_CITY + " like '*" + criteria + "*'";
+                        "WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_NAME + " like '%" + criteria + "%' OR b." + RepairContext.AddressEntry.COLUMN_NAME_CITY + " like '%" + criteria + "%'";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();

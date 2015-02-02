@@ -3,10 +3,14 @@ package be.electrodoctor.electroman;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
@@ -20,6 +24,8 @@ import be.electrodoctor.electroman.database.SQLiteHelper;
 public class MainListViewFragment extends Fragment {
 
     private SQLiteHelper dbHelper;
+    private SimpleCursorAdapter dataAdapter;
+
 
     public MainListViewFragment() {
     }
@@ -53,7 +59,7 @@ public class MainListViewFragment extends Fragment {
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
-        SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(
+        dataAdapter = new SimpleCursorAdapter(
                 this.getActivity(), R.layout.client_info,
                 cursor,
                 columns,
@@ -76,5 +82,30 @@ public class MainListViewFragment extends Fragment {
                 Toast.makeText(getActivity(), countryCode, Toast.LENGTH_SHORT).show();
             }
         });
+
+        //Handle fintering for id's
+        EditText myFilter = (EditText) rootView.findViewById(R.id.filter);
+        myFilter.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+            }
+        });
+
+        dataAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            public Cursor runQuery(CharSequence constraint) {
+                return dbHelper.getAllClientsCursor(constraint.toString());
+
+            }
+        });
     }
+
 }
