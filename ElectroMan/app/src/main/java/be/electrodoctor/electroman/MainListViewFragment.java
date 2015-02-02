@@ -1,5 +1,6 @@
 package be.electrodoctor.electroman;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,7 @@ public class MainListViewFragment extends Fragment {
 
     private SQLiteHelper dbHelper;
     private SimpleCursorAdapter dataAdapter;
-
+    public final static String JOB_ID = "be.electroman.electrodoctor.JOB_ID";
 
     public MainListViewFragment() {
     }
@@ -51,7 +52,8 @@ public class MainListViewFragment extends Fragment {
                 RepairContext.AddressEntry.COLUMN_NAME_CITY,
                 RepairContext.RepairJobEntry.COLUMN_NAME_DEVICE,
                 RepairContext.RepairJobEntry.COLUMN_NAME_CODE,
-                RepairContext.ClientEntry.COLUMN_NAME_NAME
+                RepairContext.ClientEntry.COLUMN_NAME_NAME,
+                RepairContext.RepairJobEntry.COLUMN_NAME_ID
 
         };
 
@@ -79,13 +81,14 @@ public class MainListViewFragment extends Fragment {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> listView, View view,
-                                    int position, long id) {
+            public void onItemClick(AdapterView<?> listView, View view, int position, long id) {
                 // Get the cursor, positioned to the corresponding row in the result set
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
                 // Get the state's capital from this row in the database.
-                String countryCode = cursor.getString(cursor.getColumnIndexOrThrow("name"));
-                Toast.makeText(getActivity(), countryCode, Toast.LENGTH_SHORT).show();
+                String repairId = cursor.getString(cursor.getColumnIndexOrThrow(RepairContext.RepairJobEntry.COLUMN_NAME_ID));
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(JOB_ID, repairId);
+                startActivity(intent);
             }
         });
 
@@ -113,5 +116,4 @@ public class MainListViewFragment extends Fragment {
             }
         });
     }
-
 }

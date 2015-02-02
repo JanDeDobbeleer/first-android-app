@@ -3,34 +3,32 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="6dip"
-    android:rowCount="3"
-    android:columnCount="3">
+    android:padding="6dip">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:padding="5dp"
+        android:background="#33B5E5">
+        <TextView
+            android:id="@+id/ListView_City"
+            android:gravity="left"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:weightSum="2"
-            android:padding="5dp"
-            android:background="#33B5E5">
-            <TextView
-                android:id="@+id/ListView_City"
-                android:gravity="left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="City"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/listView_Name"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Name"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
-        </LinearLayout>
+            android:layout_weight="1"
+            android:text="City"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/listView_Name"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -50,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="Device"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -72,11 +70,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
-
-
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NO"
-        />
+        android:text="NO"/>-->
 </LinearLayout>

@@ -200,6 +200,39 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public RepairJob getRepairJob(long id){
+        // 1. build the query
+        String query = "SELECT * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
+                "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " INNER JOIN " +
+                RepairContext.RepairJobEntry.TABLE_NAME + " c ON c." + RepairContext.RepairJobEntry.COLUMN_NAME_CLIENT_ID + " = a." + RepairContext.ClientEntry.COLUMN_NAME_ID +
+                " WHERE c." + RepairContext.RepairJobEntry.COLUMN_NAME_ID + "=" + id + ";";
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        RepairJob job = new RepairJob();
+        if (cursor.moveToFirst()) {
+            job.setId(cursor.getLong(8));
+            job.setProcessed(Boolean.parseBoolean(cursor.getString(14)));
+            job.setProblemCode(cursor.getInt(9));
+            job.setDevice(cursor.getString(13));
+            job.setDescription(cursor.getString(11));
+            job.setComment(cursor.getString(12));
+            Client client = new Client();
+            client.setName(cursor.getString(1));
+            client.setId(cursor.getLong(0));
+            Address address = new Address();
+            address.setId(cursor.getLong(3));
+            address.setCity(cursor.getString(4));
+            address.setStreet(cursor.getString(5));
+            address.setNumber(cursor.getInt(6));
+            address.setPostalCode(cursor.getInt(7));
+            client.setAddress(address);
+            job.setClient(client);
+        }
+        return job;
+    }
+
     private Client buildEntityFromCursor(Cursor cursor){
         Client client = new Client();
         client.setId(cursor.getInt(0));
@@ -343,7 +376,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         client.setId(this.addClient(client));
         job = new RepairJob();
         job.setClient(client);
-        job.setDescription("Now look, it's not because I live in Aarschot that you people have to go on and eel me stuff that does not work. This is unacceptable!");
+        job.setDescription("Now look, it's not because I live in Aarschot that you people have to go on and sell me stuff that does not work. This is unacceptable!");
         job.setDevice("Wireless mouse");
         job.setProblemCode(24);
         job.setProcessed(false);

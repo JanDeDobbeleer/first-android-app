@@ -5,7 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="some_hint">search</string>
-    <string name="Problem_Code">Code:&#160;</string>
-    <string name="Device">Device:&#160;</string>
+    <string name="Problem_Code">Code: </string>
+    <string name="Device">Device: </string>
+    <string name="title_activity_detail">Detail</string>
+    <string name="Detail_Description">Description</string>
+    <string name="Detail_Address">Address</string>
 
 </resources>

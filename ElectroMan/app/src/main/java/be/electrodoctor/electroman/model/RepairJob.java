@@ -5,7 +5,7 @@ package be.electrodoctor.electroman.model;
  */
 public class RepairJob {
 
-    private int id;
+    private long id;
     private int problemCode;
     private Client client;
     private String device;
@@ -13,11 +13,11 @@ public class RepairJob {
     private String comment;
     private boolean processed;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -5,17 +5,17 @@ package be.electrodoctor.electroman.model;
  */
 public class Address {
 
-    private int id;
+    private long id;
     private String city;
     private String street;
     private int number;
     private int postalCode;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
