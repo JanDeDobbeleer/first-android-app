@@ -48,14 +48,19 @@ public class MainListViewFragment extends Fragment {
 
         // The desired columns to be bound
         String[] columns = new String[]{
-                RepairContext.ClientEntry.COLUMN_NAME_NAME,
-                RepairContext.AddressEntry.COLUMN_NAME_CITY
+                RepairContext.AddressEntry.COLUMN_NAME_CITY,
+                RepairContext.RepairJobEntry.COLUMN_NAME_DEVICE,
+                RepairContext.RepairJobEntry.COLUMN_NAME_CODE,
+                RepairContext.ClientEntry.COLUMN_NAME_NAME
+
         };
 
         // the XML defined views which the data will be bound to
         int[] to = new int[]{
-                R.id.listView_Name,
-                R.id.ListView_City
+                R.id.ListView_City,
+                R.id.Content_Device,
+                R.id.Content_Code,
+                R.id.listView_Name
         };
 
         // create the adapter using the cursor pointing to the desired data

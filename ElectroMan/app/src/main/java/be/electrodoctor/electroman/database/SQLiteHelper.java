@@ -174,7 +174,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public Cursor getAllClientsCursor() {
         // 1. build the query
         String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
-                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID;
+                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " INNER JOIN " +
+                       RepairContext.RepairJobEntry.TABLE_NAME + " c ON c." + RepairContext.RepairJobEntry.COLUMN_NAME_CLIENT_ID + " = a." + RepairContext.ClientEntry.COLUMN_NAME_ID;
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,8 +188,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public Cursor getAllClientsCursor(String criteria) {
         // 1. build the query
         String query = "SELECT  a." + RepairContext.ClientEntry.COLUMN_NAME_ID + " _id, * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
-                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " " +
-                        "WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_NAME + " like '%" + criteria + "%' OR b." + RepairContext.AddressEntry.COLUMN_NAME_CITY + " like '%" + criteria + "%'";
+                       "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID + " INNER JOIN " +
+                        RepairContext.RepairJobEntry.TABLE_NAME + " c ON c." + RepairContext.RepairJobEntry.COLUMN_NAME_CLIENT_ID + " = a." + RepairContext.ClientEntry.COLUMN_NAME_ID +
+                        " WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_NAME + " like '%" + criteria + "%' OR b." + RepairContext.AddressEntry.COLUMN_NAME_CITY + " like '%" + criteria + "%'";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
