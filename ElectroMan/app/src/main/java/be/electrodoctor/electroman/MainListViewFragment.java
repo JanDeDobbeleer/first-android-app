@@ -35,6 +35,7 @@ public class MainListViewFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         dbHelper = new SQLiteHelper(getActivity());
+        dbHelper.Feed();
         displayListView(rootView);
         return rootView;
     }

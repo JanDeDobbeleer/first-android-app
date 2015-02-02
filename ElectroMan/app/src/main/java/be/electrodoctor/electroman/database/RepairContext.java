@@ -37,4 +37,15 @@ public class RepairContext {
         public static final String COLUMN_NAME_ADDRESS = "addressId";
         public static final String COLUMN_NAME_NAME = "name";
     }
+
+    public static abstract class RepairJobEntry implements BaseColumns {
+        public static final String TABLE_NAME = "repairJob";
+        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_CODE = "code";
+        public static final String COLUMN_NAME_CLIENT_ID = "clientId";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
+        public static final String COLUMN_NAME_COMMENT = "comment";
+        public static final String COLUMN_NAME_DEVICE = "device";
+        public static final String COLUMN_NAME_PROCESSED = "processed";
+    }
 }
