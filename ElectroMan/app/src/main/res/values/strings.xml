@@ -16,5 +16,6 @@
     <string name="popup_process_title">Process</string>
     <string name="process_dialog_comment">Comment</string>
     <string name="Processed">Processed:</string>
+    <string name="error_unexpected">Something unexpected happened</string>
 
 </resources>

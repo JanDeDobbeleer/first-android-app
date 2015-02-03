@@ -125,6 +125,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public int addRepairCommentAndProcess(long repairId, String comment) {
+        Log.d("addRepairCommentAndProcess", comment);
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues jobValues = new ContentValues();
+        jobValues.put(RepairContext.RepairJobEntry.COLUMN_NAME_COMMENT, comment);
+        jobValues.put(RepairContext.RepairJobEntry.COLUMN_NAME_PROCESSED, true);
+        int id = db.update(RepairContext.RepairJobEntry.TABLE_NAME, jobValues, RepairContext.RepairJobEntry.COLUMN_NAME_ID + " = ?", new String[]{Long.toString(repairId)});
+        // 4. close
+        db.close();
+        return id;
+    }
+
     public Client getClient(long id){
 
         // 1. get reference to readable DB

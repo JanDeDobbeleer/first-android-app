@@ -3,6 +3,7 @@ package be.electrodoctor.electroman.common;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,6 +18,8 @@ import be.electrodoctor.electroman.dialogs.ProcessDialog;
  * Created by janjoris on 03/02/15.
  */
 public class CustomAdapter extends SimpleCursorAdapter {
+
+    public static String IdArg = "repairId";
 
     public CustomAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
@@ -38,6 +41,9 @@ public class CustomAdapter extends SimpleCursorAdapter {
                 String repairId = cursor.getString(cursor.getColumnIndexOrThrow(RepairContext.RepairJobEntry.COLUMN_NAME_ID));
                 //Toast.makeText(v.getContext(), repairId, Toast.LENGTH_SHORT).show();
                 ProcessDialog dialog = new ProcessDialog();
+                Bundle bundle = new Bundle();
+                bundle.putLong(IdArg, Long.parseLong(repairId));
+                dialog.setArguments(bundle);
                 dialog.show(((Activity)context).getFragmentManager(), "ProcessedDialog");
             }
         });
