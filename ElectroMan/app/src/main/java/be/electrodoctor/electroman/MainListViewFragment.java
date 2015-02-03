@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import be.electrodoctor.electroman.common.CustomAdapter;
 import be.electrodoctor.electroman.database.RepairContext;
 import be.electrodoctor.electroman.database.SQLiteHelper;
 
@@ -67,7 +68,7 @@ public class MainListViewFragment extends Fragment {
 
         // create the adapter using the cursor pointing to the desired data
         //as well as the layout information
-        dataAdapter = new SimpleCursorAdapter(
+        dataAdapter = new CustomAdapter(
                 this.getActivity(), R.layout.client_info,
                 cursor,
                 columns,
