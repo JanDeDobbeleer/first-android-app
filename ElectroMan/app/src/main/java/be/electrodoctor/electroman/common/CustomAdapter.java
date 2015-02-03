@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import be.electrodoctor.electroman.R;
+import be.electrodoctor.electroman.database.RepairContext;
 
 /**
  * Created by janjoris on 03/02/15.
@@ -26,7 +29,13 @@ public class CustomAdapter extends SimpleCursorAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                View parentRow = (View) v.getParent();
+                ListView listView = (ListView) parentRow.getParent();
+                final int position = listView.getPositionForView(parentRow);
+                Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+                // Get the state's capital from this row in the database.
+                String repairId = cursor.getString(cursor.getColumnIndexOrThrow(RepairContext.RepairJobEntry.COLUMN_NAME_ID));
+                Toast.makeText(v.getContext(), repairId, Toast.LENGTH_SHORT).show();
             }
         });
         return view;
