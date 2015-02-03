@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
 import be.electrodoctor.electroman.R;
 
@@ -17,8 +18,8 @@ public class ProcessDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.proces_dialog_title)
-                .setPositiveButton(R.string.process_dialog_process, new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        builder.setPositiveButton(R.string.process_dialog_process, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // FIRE ZE MISSILES!
                     }
@@ -27,7 +28,7 @@ public class ProcessDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
-                });
+                }).setView(inflater.inflate(R.layout.process_popup, null));
         // Create the AlertDialog object and return it
         return builder.create();
     }
