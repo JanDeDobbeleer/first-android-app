@@ -69,10 +69,26 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/Button_Processed"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="NO"
-        android:focusable="false"/>
+        android:weightSum="2"
+        android:padding="5dp">
+        <TextView
+            android:id="@+id/ListView_Processed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Processed"
+            android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        <Button
+            android:id="@+id/Button_Processed"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:text="NO"
+            android:layout_weight="1"
+            android:focusable="false"/>
+    </LinearLayout>
+
 </LinearLayout>

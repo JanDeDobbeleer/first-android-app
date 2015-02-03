@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import be.electrodoctor.electroman.R;
 import be.electrodoctor.electroman.database.RepairContext;
@@ -31,7 +30,7 @@ public class CustomAdapter extends SimpleCursorAdapter {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View parentRow = (View) v.getParent();
+                View parentRow = (View) v.getParent().getParent();
                 ListView listView = (ListView) parentRow.getParent();
                 final int position = listView.getPositionForView(parentRow);
                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);

@@ -21,7 +21,7 @@ public class ProcessDialog extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setPositiveButton(R.string.process_dialog_process, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // FIRE ZE MISSILES!
+
                     }
                 })
                 .setNegativeButton(R.string.process_dialog_cancel, new DialogInterface.OnClickListener() {
