@@ -10,5 +10,8 @@
     <string name="title_activity_detail">Detail</string>
     <string name="Detail_Description">Description</string>
     <string name="Detail_Address">Address</string>
+    <string name="proces_dialog_title">Process repair job</string>
+    <string name="process_dialog_process">process</string>
+    <string name="process_dialog_cancel">cancel</string>
 
 </resources>
