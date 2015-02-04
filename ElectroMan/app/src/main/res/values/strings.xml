@@ -20,5 +20,6 @@
     <string name="btn_no">NO</string>
     <string name="btn_yes">YES</string>
     <string name="Detail_Comment">Comment</string>
+    <string name="google_maps">Google maps</string>
 
 </resources>
