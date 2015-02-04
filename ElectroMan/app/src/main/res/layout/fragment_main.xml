@@ -3,11 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Dummy item to prevent EditText from receiving focus -->
+    <LinearLayout
+        android:focusable="true" android:focusableInTouchMode="true"
+        android:layout_width="0px" android:layout_height="0px"/>
+
     <EditText android:id="@+id/filter" android:layout_width="match_parent"
         android:layout_height="wrap_content" android:ems="10"
-        android:hint="@string/some_hint">
-        <requestFocus />
-    </EditText>
+        android:hint="@string/some_hint"
+        android:nextFocusUp="@id/filter" android:nextFocusLeft="@id/filter"/>
 
     <ListView
         android:id="@+id/listView"

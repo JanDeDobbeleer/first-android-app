@@ -100,6 +100,7 @@ public class MainListViewFragment extends Fragment implements OnUpdate {
 
         //Handle fintering for id's
         EditText myFilter = (EditText) rootView.findViewById(R.id.filter);
+        myFilter.clearFocus();
         myFilter.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {

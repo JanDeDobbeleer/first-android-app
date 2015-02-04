@@ -11,8 +11,8 @@
     <string name="Detail_Description">Description</string>
     <string name="Detail_Address">Address</string>
     <string name="process_dialog_title">Process repair job</string>
-    <string name="process_dialog_process">process</string>
-    <string name="process_dialog_cancel">cancel</string>
+    <string name="process_dialog_process">Done</string>
+    <string name="process_dialog_cancel">Cancel</string>
     <string name="popup_process_title">Process</string>
     <string name="process_dialog_comment">Comment</string>
     <string name="Processed">Processed:</string>

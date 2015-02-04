@@ -40,7 +40,7 @@ public class DetailActivity extends ActionBarActivity {
         imagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + job.getClient().getAddress().getNumber() + " "  + job.getClient().getAddress().getStreet() + ", " + job.getClient().getAddress().getPostalCode() + ", " + job.getClient().getAddress().getCity());
+                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + job.getClient().getAddress().getNumber() + " "  + job.getClient().getAddress().getStreet() + ", " + job.getClient().getAddress().getPostalCode() + " " + job.getClient().getAddress().getCity());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
