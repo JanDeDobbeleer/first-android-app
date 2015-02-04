@@ -17,5 +17,8 @@
     <string name="process_dialog_comment">Comment</string>
     <string name="Processed">Processed:</string>
     <string name="error_unexpected">Something unexpected happened</string>
+    <string name="btn_no">NO</string>
+    <string name="btn_yes">YES</string>
+    <string name="Detail_Comment">Comment</string>
 
 </resources>

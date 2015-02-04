@@ -23,7 +23,6 @@ public class CustomAdapter extends SimpleCursorAdapter {
 
     public CustomAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
-
     }
 
     @Override
@@ -47,6 +46,16 @@ public class CustomAdapter extends SimpleCursorAdapter {
                 dialog.show(((Activity)context).getFragmentManager(), "ProcessedDialog");
             }
         });
+        return view;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View view = super.getView(position, convertView, parent);
+        Button btn = (Button)view.findViewById(R.id.Button_Processed);
+        String text = btn.getText().toString();
+        btn.setEnabled(btn.getText().toString().equals("0"));
+        btn.setText((btn.getText().toString().equals("0")) ? R.string.btn_no : R.string.btn_yes);
         return view;
     }
 }

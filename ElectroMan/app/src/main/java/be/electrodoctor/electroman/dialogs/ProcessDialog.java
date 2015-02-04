@@ -1,5 +1,6 @@
 package be.electrodoctor.electroman.dialogs;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -19,6 +20,13 @@ import be.electrodoctor.electroman.database.SQLiteHelper;
  */
 public class ProcessDialog extends DialogFragment {
 
+    OnJobProcessed mCallback;
+
+    // Container Activity must implement this interface
+    public interface OnJobProcessed {
+        public void onJobProcessed();
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
@@ -33,6 +41,8 @@ public class ProcessDialog extends DialogFragment {
                         int rows = dbHelper.addRepairCommentAndProcess(repairId, text.getText().toString());
                         if(rows == 0)
                             Toast.makeText(getActivity(), R.string.error_unexpected, Toast.LENGTH_SHORT).show();
+                        else
+                            mCallback.onJobProcessed();
                     }
                 })
                 .setNegativeButton(R.string.process_dialog_cancel, new DialogInterface.OnClickListener() {
@@ -42,5 +52,19 @@ public class ProcessDialog extends DialogFragment {
                 }).setView(view);
         // Create the AlertDialog object and return it
         return builder.create();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            mCallback = (OnJobProcessed) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnJobProcessed");
+        }
     }
 }

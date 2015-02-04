@@ -19,17 +19,20 @@ import android.widget.Toast;
 import be.electrodoctor.electroman.common.CustomAdapter;
 import be.electrodoctor.electroman.database.RepairContext;
 import be.electrodoctor.electroman.database.SQLiteHelper;
+import be.electrodoctor.electroman.dialogs.ProcessDialog;
 
 /**
 * Created by janjoris on 01/02/15.
 */
-public class MainListViewFragment extends Fragment {
+public class MainListViewFragment extends Fragment implements OnUpdate {
 
     private SQLiteHelper dbHelper;
     private SimpleCursorAdapter dataAdapter;
     public final static String JOB_ID = "be.electroman.electrodoctor.JOB_ID";
 
-    public MainListViewFragment() {
+    @Override
+    public void refresh() {
+        this.displayListView(getView());
     }
 
     @Override
@@ -54,6 +57,7 @@ public class MainListViewFragment extends Fragment {
                 RepairContext.RepairJobEntry.COLUMN_NAME_DEVICE,
                 RepairContext.RepairJobEntry.COLUMN_NAME_CODE,
                 RepairContext.ClientEntry.COLUMN_NAME_NAME,
+                RepairContext.RepairJobEntry.COLUMN_NAME_PROCESSED,
                 RepairContext.RepairJobEntry.COLUMN_NAME_ID
 
         };
@@ -63,7 +67,8 @@ public class MainListViewFragment extends Fragment {
                 R.id.ListView_City,
                 R.id.Content_Device,
                 R.id.Content_Code,
-                R.id.listView_Name
+                R.id.listView_Name,
+                R.id.Button_Processed
         };
 
         // create the adapter using the cursor pointing to the desired data

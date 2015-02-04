@@ -2,43 +2,28 @@ package be.electrodoctor.electroman;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import be.electrodoctor.electroman.dialogs.ProcessDialog;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements ProcessDialog.OnJobProcessed {
 
+    private final String FRAGMENT = "ListViewFragment";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainListViewFragment())
+                    .add(R.id.container, new MainListViewFragment(), FRAGMENT)
                     .commit();
         }
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onJobProcessed() {
+        android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT);
+        OnUpdate updateable = (OnUpdate)fragment;
+        updateable.refresh();
     }
 }

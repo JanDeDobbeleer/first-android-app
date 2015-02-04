@@ -1,10 +1,10 @@
 package be.electrodoctor.electroman;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import be.electrodoctor.electroman.database.SQLiteHelper;
@@ -33,6 +33,11 @@ public class DetailActivity extends ActionBarActivity {
         assignText(R.id.Content_Number, Integer.toString(job.getClient().getAddress().getNumber()));
         assignText(R.id.Content_PostalCode, Integer.toString(job.getClient().getAddress().getPostalCode()));
         assignText(R.id.Content_City, job.getClient().getAddress().getCity());
+        assignText(R.id.Content_Comment, job.getComment());
+        if(job.isProcessed()) {
+            LinearLayout commentBlock = (LinearLayout)findViewById(R.id.Detail_CommentBlock);
+            commentBlock.setVisibility(View.VISIBLE);
+        }
     }
 
     private void assignText(int id, String text){

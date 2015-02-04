@@ -138,33 +138,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return id;
     }
 
-    public Client getClient(long id){
-
-        // 1. get reference to readable DB
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        // 2. build query
-        final String MY_QUERY = "SELECT * FROM " + RepairContext.ClientEntry.TABLE_NAME + " a INNER JOIN " + RepairContext.AddressEntry.TABLE_NAME + " b " +
-                                "ON a." + RepairContext.ClientEntry.COLUMN_NAME_ADDRESS + "=b." + RepairContext.AddressEntry.COLUMN_NAME_ID +
-                                " WHERE a." + RepairContext.ClientEntry.COLUMN_NAME_ID + "=?";
-        Cursor cursor = db.rawQuery(MY_QUERY, new String[]{String.valueOf(id)});
-
-        // 3. if we got results get the first one
-        if (cursor != null)
-            cursor.moveToFirst();
-        else
-            return null;
-
-        // 4. build client entity
-        Client client = buildEntityFromCursor(cursor);
-
-        //log
-        Log.d("getClient(" + id + ")", client.toString());
-
-        // 5. return entity
-        return client;
-    }
-
     // Get All Clients
     public List<Client> getAllClients() {
         List<Client> clients = new LinkedList<Client>();
@@ -226,7 +199,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         RepairJob job = new RepairJob();
         if (cursor.moveToFirst()) {
             job.setId(cursor.getLong(8));
-            job.setProcessed(Boolean.parseBoolean(cursor.getString(14)));
+            job.setProcessed(cursor.getString(14).equals("1"));
             job.setProblemCode(cursor.getInt(9));
             job.setDevice(cursor.getString(13));
             job.setDescription(cursor.getString(11));
@@ -262,7 +235,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void Feed(){
-
+        //ignore the feed when we have records
+        if(this.getAllClients().size() > 0)
+            return;
         //delete all records and recreate the thing
         final String dropTable = "DELETE FROM %s;";
         SQLiteDatabase db = this.getWritableDatabase();
